@@ -18,10 +18,10 @@ const slice = createSlice({
             const index = tasks.findIndex(task => task.id === action.payload.taskId)
             if (index !== -1) tasks.splice(index, 1)
         },
-        addTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
+        addTaskAC: (state, action: PayloadAction<TaskType>) => {
             //return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
-            const tasks = state[action.payload.task.todoListId]
-            tasks.unshift(action.payload.task)
+            const tasks = state[action.payload.todoListId]
+            tasks.unshift(action.payload)
         },
         updateTaskAC: (state, action: PayloadAction<{ taskId: string, model: UpdateDomainTaskModelType, todolistId: string }>) => {
             //return {
@@ -37,6 +37,9 @@ const slice = createSlice({
         setTasksAC: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistId: string }>) => {
             //return {...state, [action.todolistId]: action.tasks}
             state[action.payload.todolistId] = action.payload.tasks
+        },
+        clearTasks: () => {
+            return {}
         }
     },
     extraReducers: (builder) => {
@@ -56,7 +59,7 @@ const slice = createSlice({
 })
 
 export const tasksReducer = slice.reducer
-export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC} = slice.actions
+export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC,clearTasks} = slice.actions
 
 /*export const tasksReducer = (state: TasksStateType = initialState, action: any): TasksStateType => {
     switch (action.type) {
@@ -123,7 +126,7 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
         .then(res => {
             if (res.data.resultCode === 0) {
                 const task = res.data.data.item
-                const action = addTaskAC({task})
+                const action = addTaskAC(task)
                 dispatch(action)
                 dispatch(setAppStatus({status: 'succeeded'}))
             } else {

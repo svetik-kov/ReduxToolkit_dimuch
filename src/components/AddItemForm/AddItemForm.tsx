@@ -13,6 +13,7 @@ export const AddItemForm = React.memo(function ({addItem, disabled = false}: Add
 	let [error, setError] = useState<string | null>(null)
 
 	const addItemHandler = () => {
+
 		if (title.trim() !== '') {
 			addItem(title);
 			setTitle('');
@@ -26,6 +27,7 @@ export const AddItemForm = React.memo(function ({addItem, disabled = false}: Add
 	}
 
 	const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+
 		if (error !== null) {
 			setError(null);
 		}

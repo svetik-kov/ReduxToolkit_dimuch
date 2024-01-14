@@ -45,12 +45,15 @@ const slice=createSlice({
             })
             // 2 variant
             //return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+        },
+        clearTodolists: () => {
+            return []
         }
     }
 })
 
 export const  todolistsReducer=slice.reducer
-export const {removeTodolist,addTodolist, changeTodolistTitle,changeTodolistFilter, changeTodolistEntityStatus, setTodolists}=slice.actions
+export const {removeTodolist,addTodolist, changeTodolistTitle,changeTodolistFilter, changeTodolistEntityStatus, setTodolists,clearTodolists}=slice.actions
 
 /*export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
