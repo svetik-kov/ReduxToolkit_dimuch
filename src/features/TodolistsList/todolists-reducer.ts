@@ -53,8 +53,9 @@ const slice=createSlice({
     },
     extraReducers:(builder)=>{
         builder
-            .addCase(clearTasksAndTodolists.type,()=>{
-                return []
+            //2 variant
+            .addCase(clearTasksAndTodolists,(state,action)=>{
+                return action.payload.todolists
             })
     }
 })
