@@ -51,7 +51,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
                 dispatch(setIsLoggedIn({isLoggedIn:false}))
                /* dispatch(clearTasks())
                 dispatch(clearTodolists())*/
-                dispatch(clearTasksAndTodolists({tasks:{},todolists:[]}))
+                dispatch(clearTasksAndTodolists({},[]))
                 dispatch(setAppStatus({status:'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)

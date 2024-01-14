@@ -5,7 +5,7 @@ import {handleServerAppError, handleServerNetworkError} from '../../utils/error-
 import {setAppStatus} from 'app/app-reducer';
 import {addTodolist, removeTodolist, setTodolists} from 'features/TodolistsList/todolists-reducer';
 import {createSlice, current, PayloadAction} from '@reduxjs/toolkit';
-import {ClearTasksAndTodolists, clearTasksAndTodolists} from 'common/actions/common.actions';
+import { clearTasksAndTodolists} from 'common/actions/common.actions';
 
 const initialState: TasksStateType = {}
 
@@ -57,7 +57,7 @@ const slice = createSlice({
                 })
             })
             //1 variant
-            .addCase(clearTasksAndTodolists.type,(state,action:PayloadAction<ClearTasksAndTodolists>)=>{
+            .addCase(clearTasksAndTodolists,(state,action)=>{
                 console.log('state:',current(state))
                 return action.payload.tasks
             })
