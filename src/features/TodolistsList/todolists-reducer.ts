@@ -1,9 +1,9 @@
-import {todolistsAPI, TodolistType} from '../../api/todolists-api'
+import {todolistsAPI, TodolistType} from 'api/todolists-api'
 import {Dispatch} from 'redux'
-import {RequestStatusType, setAppStatus,} from '../../app/app-reducer'
-import {handleServerNetworkError} from '../../utils/error-utils'
-import { AppThunk } from '../../app/store';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {RequestStatusType, setAppStatus,} from 'app/app-reducer'
+import {handleServerNetworkError} from 'utils/error-utils'
+import { AppThunk } from 'app/store';
+import {createSlice, current, PayloadAction} from '@reduxjs/toolkit';
 
 //https://immerjs.github.io/immer/update-patterns/
 const initialState: Array<TodolistDomainType> = []
@@ -17,8 +17,10 @@ const slice=createSlice({
             if (index !== -1) state.splice(index, 1)
         },
         addTodolist:(state,action:PayloadAction<{ todolist: TodolistType }>)=>{
+            console.log(current(state))
             //return [{...action.todolist, filter: 'all', entityStatus: 'idle'}, ...state]
-            state.unshift({...action.payload.todolist, filter: 'all', entityStatus: 'idle'})
+            const newTodolist: TodolistDomainType = {...action.payload.todolist, filter: 'all', entityStatus: 'idle'}
+            state.unshift(newTodolist)
         },
         changeTodolistTitle:(state,action:PayloadAction<{ id: string, title: string }>)=>{
             //return state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
