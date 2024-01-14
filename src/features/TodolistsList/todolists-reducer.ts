@@ -4,6 +4,7 @@ import {RequestStatusType, setAppStatus,} from 'app/app-reducer'
 import {handleServerNetworkError} from 'utils/error-utils'
 import { AppThunk } from 'app/store';
 import {createSlice, current, PayloadAction} from '@reduxjs/toolkit';
+import {clearTasksAndTodolists} from 'common/actions/common.actions';
 
 //https://immerjs.github.io/immer/update-patterns/
 const initialState: Array<TodolistDomainType> = []
@@ -46,14 +47,20 @@ const slice=createSlice({
             // 2 variant
             //return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
         },
-        clearTodolists: () => {
+        /*clearTodolists: () => {
             return []
-        }
+        }*/
+    },
+    extraReducers:(builder)=>{
+        builder
+            .addCase(clearTasksAndTodolists.type,()=>{
+                return []
+            })
     }
 })
 
 export const  todolistsReducer=slice.reducer
-export const {removeTodolist,addTodolist, changeTodolistTitle,changeTodolistFilter, changeTodolistEntityStatus, setTodolists,clearTodolists}=slice.actions
+export const {removeTodolist,addTodolist, changeTodolistTitle,changeTodolistFilter, changeTodolistEntityStatus, setTodolists /*,clearTodolists*/}=slice.actions
 
 /*export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {

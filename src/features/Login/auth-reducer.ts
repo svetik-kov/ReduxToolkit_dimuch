@@ -4,8 +4,8 @@ import {authAPI, LoginParamsType} from '../../api/todolists-api'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {setAppStatus} from 'app/app-reducer';
-import {clearTasks} from 'features/TodolistsList/tasks-reducer';
-import {clearTodolists} from 'features/TodolistsList/todolists-reducer';
+
+import {clearTasksAndTodolists} from 'common/actions/common.actions';
 
 const initialState = {
     isLoggedIn: false
@@ -49,8 +49,9 @@ export const logoutTC = () => (dispatch: Dispatch) => {
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedIn({isLoggedIn:false}))
-                dispatch(clearTasks())
-                dispatch(clearTodolists())
+               /* dispatch(clearTasks())
+                dispatch(clearTodolists())*/
+                dispatch(clearTasksAndTodolists())
                 dispatch(setAppStatus({status:'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
