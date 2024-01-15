@@ -1,40 +1,61 @@
 import {Dispatch} from 'redux'
 
-import {authAPI, LoginParamsType} from '../../api/todolists-api'
+import {authAPI, FieldErrorsType, LoginParamsType} from '../../api/todolists-api'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {setAppStatus} from 'app/app-reducer';
 
 import {clearTasksAndTodolists} from 'common/actions/common.actions';
+import {AxiosError} from 'axios';
 
 const initialState = {
     isLoggedIn: false
 }
 
 //https://immerjs.github.io/immer/update-patterns/
-const slice=createSlice({
-    name:'auth',
-    initialState:initialState,
-    reducers:{
-        setIsLoggedIn(state,action:PayloadAction<{ isLoggedIn: boolean }>){
-            state.isLoggedIn=action.payload.isLoggedIn
+const slice = createSlice({
+    name: 'auth',
+    initialState: initialState,
+    reducers: {
+        setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+            state.isLoggedIn = action.payload.isLoggedIn
         },
-
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginTC.fulfilled, (state, action) => {
+                state.isLoggedIn = action.payload.isLoggedIn
+            })
+    }
+})
 
+export const loginTC = createAsyncThunk<{isLoggedIn: boolean},LoginParamsType,{rejectValue:{errors:Array<string>,fieldsErrors?:FieldErrorsType[]}}>(`${slice.name}/login`, async (param: LoginParamsType, thunkAPI) => {
+    const {dispatch, rejectWithValue} = thunkAPI
+    dispatch(setAppStatus({status: 'loading'}))
+    try {
+             const res = await authAPI.login(param)
+        if (res.data.resultCode === 0) {
+            dispatch(setAppStatus({status: 'succeeded'}))
+            return {isLoggedIn: true}
+        } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue({ errors:res.data.messages,fieldsErrors:res.data.fieldsErrors})
+        }
+    } catch (e:any) {
+        handleServerNetworkError(e,dispatch)
+        return rejectWithValue({ errors:[e.message],fieldsErrors:undefined})
+    }
 })
 
 
-
-
 // thunks
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
-    dispatch(setAppStatus({status:'loading'}))
+/*export const loginTC_ = (data: LoginParamsType) => (dispatch: Dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
     authAPI.login(data)
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedIn({isLoggedIn:true}))
-                dispatch(setAppStatus({status:'succeeded'}))
+                dispatch(setIsLoggedIn({isLoggedIn: true}))
+                dispatch(setAppStatus({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -42,17 +63,17 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
         .catch((error) => {
             handleServerNetworkError(error, dispatch)
         })
-}
+}*/
 export const logoutTC = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatus({status:'loading'}))
+    dispatch(setAppStatus({status: 'loading'}))
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedIn({isLoggedIn:false}))
-               /* dispatch(clearTasks())
-                dispatch(clearTodolists())*/
-                dispatch(clearTasksAndTodolists({},[]))
-                dispatch(setAppStatus({status:'succeeded'}))
+                dispatch(setIsLoggedIn({isLoggedIn: false}))
+                /* dispatch(clearTasks())
+                 dispatch(clearTodolists())*/
+                dispatch(clearTasksAndTodolists())
+                dispatch(setAppStatus({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -64,4 +85,4 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 
 
 export const authReducer = slice.reducer
-export const {setIsLoggedIn}=slice.actions
+export const {setIsLoggedIn} = slice.actions

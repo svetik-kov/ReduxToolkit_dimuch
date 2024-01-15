@@ -7,12 +7,4 @@ import {TodolistDomainType} from 'features/TodolistsList/todolists-reducer';
     todolists: TodolistDomainType[]
 }*/
 
-export const clearTasksAndTodolists = createAction('common/clear-tasks-and-todolists',
-    (tasks: TasksStateType, todolists: TodolistDomainType[]) => {
-        return {
-            payload: {
-                tasks,
-                todolists
-            }
-        }
-    })
+export const clearTasksAndTodolists = createAction('common/clear-tasks-and-todolists')
