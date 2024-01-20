@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppRootStateType } from './store'
 import { initializeAppTC, RequestStatusType } from './app-reducer'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Login } from '../features/Login/Login'
-import { logoutTC } from '../features/Login/auth-reducer'
+import { Login } from '../features/Auth/Login'
+import { logoutTC } from 'features/Auth/auth-reducer'
 import {
 	AppBar,
 	Button,
@@ -20,14 +20,22 @@ import {
 } from '@mui/material';
 import { Menu } from '@mui/icons-material'
 
+import {selectIsInitialized, selectStatus} from 'app/selectors';
+import {authSelectors} from 'features/Auth';
+import {appSelectors} from 'app/index';
+
 type PropsType = {
 	demo?: boolean
 }
 
+// const selectStatus=(state:AppRootStateType) => state.app.status
+// const selectIsInitialized=(state:AppRootStateType) => state.app.isInitialized
+//const selectIsLoggedIn=(state:AppRootStateType) => state.auth.isLoggedIn
+
 function App({demo = false}: PropsType) {
-	const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-	const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-	const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+	const status = useSelector(appSelectors.selectStatus)
+	const isInitialized = useSelector(appSelectors.selectIsInitialized)
+	const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
 	const dispatch = useDispatch<any>()
 
 	useEffect(() => {

@@ -15,7 +15,9 @@ import { Grid, Paper } from '@mui/material'
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
 import { Todolist } from './Todolist/Todolist'
 import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import {selectIsLoggedIn} from 'features/Auth/selectors';
+import {bindActionCreators} from 'redux';
 
 type PropsType = {
     demo?: boolean
@@ -24,9 +26,10 @@ type PropsType = {
 export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const dispatch = useAppDispatch()
+
 
     useEffect(() => {
         if (demo || !isLoggedIn) {
@@ -37,6 +40,8 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
+       /* const callbacks=bindActionCreators({removeTaskTC},dispatch)
+        callbacks.removeTaskTC({taskId:id, todolistId})*/
         const thunk = removeTaskTC({taskId:id, todolistId})
         dispatch(thunk)
     }, [])
