@@ -1,12 +1,16 @@
 import {
-    addTodolistTC, changeTodolistEntityStatus, changeTodolistFilter, changeTodolistTitleTC, fetchTodolistsTC,
-    FilterValuesType, removeTodolistTC,
-    TodolistDomainType,
+    changeTodolistEntityStatus, changeTodolistFilter, FilterValuesType, TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer'
 import {v1} from 'uuid'
 import {TodolistType} from 'api/todolists-api'
 import {RequestStatusType} from 'app/app-reducer'
+import {
+    addTodolistTC,
+    changeTodolistTitleTC,
+    fetchTodolistsTC,
+    removeTodolistTC
+} from 'features/TodolistsList/todolists-actions';
 
 let todolistId1: string
 let todolistId2: string
