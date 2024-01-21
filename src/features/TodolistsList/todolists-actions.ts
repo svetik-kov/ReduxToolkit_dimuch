@@ -4,7 +4,8 @@ import {todolistsAPI, TodolistType} from 'api/todolists-api';
 import {handleServerNetworkError} from 'utils/error-utils';
 import {changeTodolistEntityStatus} from 'features/TodolistsList/todolists-reducer';
 
-export const fetchTodolistsTC = createAsyncThunk<{ todolists: Array<TodolistType> }>(`todolists/fetchTodolists`,
+/*
+export const fetchTodolists = createAsyncThunk<{ todolists: Array<TodolistType> }>(`todolists/fetchTodolists`,
     async (param, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI
         dispatch(setAppStatus({status: 'loading'}))
@@ -56,4 +57,4 @@ export const changeTodolistTitleTC = createAsyncThunk<{ id: string, title: strin
             handleServerNetworkError(e, dispatch)
             return rejectWithValue(null)
         }
-    })
+    })*/

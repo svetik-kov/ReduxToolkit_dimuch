@@ -5,7 +5,8 @@ import {todolistsAPI, UpdateTaskModelType} from 'api/todolists-api';
 import {handleServerAppError, handleServerNetworkError} from 'utils/error-utils';
 import {UpdateDomainTaskModelType} from 'features/TodolistsList/tasks-reducer';
 
-export const fetchTasksTC = createAsyncThunk(`tasks/fetchTasks`, async (todolistId: string, thunkAPI) => {
+/*
+export const fetchTasks = createAsyncThunk(`tasks/fetchTasks`, async (todolistId: string, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     dispatch(setAppStatus({status: 'loading'}))
     try {
@@ -17,21 +18,21 @@ export const fetchTasksTC = createAsyncThunk(`tasks/fetchTasks`, async (todolist
         return rejectWithValue(null)
     }
 })
-export const removeTaskTC = createAsyncThunk(`tasks/removeTaskTC`, async (param: { taskId: string, todolistId: string }, thunkAPI) => {
+export const removeTask = createAsyncThunk(`tasks/removeTaskTC`, async (param: { taskId: string, todolistId: string }, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     dispatch(setAppStatus({status: 'loading'}))
     try {
         const res = await todolistsAPI.deleteTask(param.todolistId, param.taskId)
 
-        /* const action = removeTaskAC({taskId:param.taskId, todolistId:param.todolistId})
-         dispatch(action)*/
+        /!* const action = removeTaskAC({taskId:param.taskId, todolistId:param.todolistId})
+         dispatch(action)*!/
         dispatch(setAppStatus({status: 'succeeded'}))
         return {taskId: param.taskId, todolistId: param.todolistId}
     } catch (e) {
         return rejectWithValue(null)
     }
 })
-export const addTaskTC = createAsyncThunk<any, { title: string, todolistId: string }>(`tasks/addTask`,
+export const addTask = createAsyncThunk<any, { title: string, todolistId: string }>(`tasks/addTask`,
     async (param: { title: string, todolistId: string }, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI
         dispatch(setAppStatus({status: 'loading'}))
@@ -50,7 +51,7 @@ export const addTaskTC = createAsyncThunk<any, { title: string, todolistId: stri
             return rejectWithValue(null)
         }
     })
-export const updateTaskTC = createAsyncThunk<{ taskId: string, model: UpdateDomainTaskModelType, todolistId: string }, { taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string }>
+export const updateTask = createAsyncThunk<{ taskId: string, model: UpdateDomainTaskModelType, todolistId: string }, { taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string }>
 (`tasks/updateTask`,
     async (param: { taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string }, thunkAPI) => {
         const {dispatch, rejectWithValue, getState} = thunkAPI
@@ -84,4 +85,4 @@ export const updateTaskTC = createAsyncThunk<{ taskId: string, model: UpdateDoma
             handleServerNetworkError(e, dispatch)
             return rejectWithValue(null)
         }
-    })
+    })*/
