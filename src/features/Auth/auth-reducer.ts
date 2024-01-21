@@ -12,7 +12,7 @@ const initialState = {
 }
 
 //https://immerjs.github.io/immer/update-patterns/
-const slice = createSlice({
+export const slice = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {
@@ -31,7 +31,7 @@ const slice = createSlice({
     }
 })
 
-export const loginTC = createAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType, { rejectValue: { errors: Array<string>, fieldsErrors?: FieldErrorsType[] } }>(`${slice.name}/login`, async (param: LoginParamsType, thunkAPI) => {
+ const loginTC = createAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType, { rejectValue: { errors: Array<string>, fieldsErrors?: FieldErrorsType[] } }>(`${slice.name}/login`, async (param: LoginParamsType, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     dispatch(setAppStatus({status: 'loading'}))
     try {
@@ -50,25 +50,7 @@ export const loginTC = createAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType
 })
 
 
-// thunks
-/*export const loginTC_ = (data: LoginParamsType) => (dispatch: Dispatch) => {
-    dispatch(setAppStatus({status: 'loading'}))
-    authAPI.login(data)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedIn({isLoggedIn: true}))
-                dispatch(setAppStatus({status: 'succeeded'}))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error) => {
-            handleServerNetworkError(error, dispatch)
-        })
-}*/
-
-
-export const logoutTC = createAsyncThunk<undefined, undefined>(`${slice.name}/logout`, async (param, thunkAPI) => {
+const logoutTC = createAsyncThunk<undefined, undefined>(`${slice.name}/logout`, async (param, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     dispatch(setAppStatus({status: 'loading'}))
     try {
@@ -87,24 +69,10 @@ export const logoutTC = createAsyncThunk<undefined, undefined>(`${slice.name}/lo
 })
 
 
-/*export const logoutTC_ = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatus({status: 'loading'}))
-    authAPI.logout()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedIn({isLoggedIn: false}))
-                /!* dispatch(clearTasks())
-                 dispatch(clearTodolists())*!/
-                dispatch(clearTasksAndTodolists())
-                dispatch(setAppStatus({status: 'succeeded'}))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error) => {
-            handleServerNetworkError(error, dispatch)
-        })
-}*/
+export const asyncAction={
+    loginTC,
+    logoutTC
+}
 
 
 export const authReducer = slice.reducer

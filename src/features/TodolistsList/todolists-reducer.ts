@@ -69,8 +69,7 @@ export type TodolistDomainType = TodolistType & {
     entityStatus: RequestStatusType
 }
 type ThunkDispatch = Dispatch
-
-export const fetchTodolists = createAsyncThunk<{ todolists: Array<TodolistType> }>(`todolists/fetchTodolists`,
+ const fetchTodolists = createAsyncThunk<{ todolists: Array<TodolistType> }>(`todolists/fetchTodolists`,
     async (param, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI
         dispatch(setAppStatus({status: 'loading'}))
@@ -83,7 +82,7 @@ export const fetchTodolists = createAsyncThunk<{ todolists: Array<TodolistType> 
             return rejectWithValue(null)
         }
     })
-export const removeTodolistTC = createAsyncThunk<{ id: string }, { todolistId: string }>(`todolists/removeTodolist`,
+ const removeTodolistTC = createAsyncThunk<{ id: string }, { todolistId: string }>(`todolists/removeTodolist`,
     async (param: { todolistId: string }, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI
         dispatch(setAppStatus({status: 'loading'}))
@@ -97,7 +96,7 @@ export const removeTodolistTC = createAsyncThunk<{ id: string }, { todolistId: s
             return rejectWithValue(null)
         }
     })
-export const addTodolistTC = createAsyncThunk<{ todolist: TodolistType }, { title: string }>(`todolists/addTodolist`,
+ const addTodolistTC = createAsyncThunk<{ todolist: TodolistType }, { title: string }>(`todolists/addTodolist`,
     async (param: { title: string }, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI
         dispatch(setAppStatus({status: 'loading'}))
@@ -110,7 +109,7 @@ export const addTodolistTC = createAsyncThunk<{ todolist: TodolistType }, { titl
             return rejectWithValue(null)
         }
     })
-export const changeTodolistTitleTC = createAsyncThunk<{ id: string, title: string }, { id: string, title: string }>(`todolists/changeTodolistTitle`,
+ const changeTodolistTitleTC = createAsyncThunk<{ id: string, title: string }, { id: string, title: string }>(`todolists/changeTodolistTitle`,
     async (param: { id: string, title: string }, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI
         dispatch(setAppStatus({status: 'loading'}))
